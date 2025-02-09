@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+  <div class="col-md-3">
+  <%= render 'muscles/muscle', muscles: @muscles,user: @user %>
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+
+    <h1>Users</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+        <% @muscles.each do |muscle| %>
+        <tr>
+          <td><%= image_tag muscle.user.get_profile_image(100,100) %></td>
+          <td><%= muscle.user.name %></td>
+
+          <td>
+            <% if muscle.user == current_user %>
+              <%= link_to 'Show', user_path(current_user) %>
+            <% else %>
+              <%= link_to 'Show', user_path(muscle.user) %>
+            <% end %>
+          </td>
+        </tr>
+        <% end %>
+      </thead>
+    </table>
+  </div>
+</div>
+</div>
