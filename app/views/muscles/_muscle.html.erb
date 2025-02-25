@@ -16,7 +16,8 @@
 
     <% unless user.guest_user? %>
   <div class="row">
-    <%= link_to "ユーザー編集", edit_user_path(user), class: "btn btn-outline-secondary btn-block" %>
+    <%= link_to edit_user_path(user) do %>
+      ユーザー編集
     <% end %>
   </div>
 <% end %>
