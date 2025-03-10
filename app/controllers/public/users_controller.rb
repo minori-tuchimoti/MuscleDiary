@@ -1,5 +1,9 @@
 class Public::UsersController < ApplicationController
   before_action :ensure_guest_user, only: [:edit]
+
+  def new
+    @user = User.new
+  end
   
   def index
     if current_user
