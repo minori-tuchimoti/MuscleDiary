@@ -1,0 +1,50 @@
+<% if notice %>
+  <div class="alert alert-success bg-white">
+    <%= notice %>
+  </div>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+    <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+      <h1>Post detail</h1>
+      <table class="table">
+      <tbody>
+        <tr>
+          <td>
+              <%= link_to user_path(@muscle.user) do %>
+                <%= image_tag @muscle.user.get_profile_image(100, 100) %><br>
+                <%= @muscle.user.name %>
+              <% end %>
+          </td>
+          <td><%= link_to @muscle.title, muscle_path(@muscle) %></td>
+          <td><%= @muscle.body %></td>
+          <% if @muscle.user_id == current_user.id %>
+            <td><%= link_to "Edit", edit_muscle_path(@muscle), class:"btn btn-success"%></td>
+            <td><%= link_to "Destroy", muscle_path(@muscle), method: :delete, data: {confirm: "本当に消しますか？"}, class:"btn btn-danger" %></td>
+          <% end %>
+        </tr>
+        </tbody>
+        </table>
+        <div>
+  <p>Number of comments：<%= @muscle.post_comments.count %></p>
+  <% @muscle.post_comments.each do |post_comment| %>
+    <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
+    <%= post_comment.user.name %>
+    <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+    <%= post_comment.comment %>
+  <% end %>
+</div>
+<div>
+  <%= form_with model: [@muscle, @post_comment] do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "Comment here" %>
+    <%= f.submit "Send" %>
+  <% end %>
+</div>
+    </div>
+  </div>
+</div>

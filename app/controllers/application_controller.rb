@@ -1,24 +1,29 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, except: [:top, :about]
-  before_action :configure_permitted_parameters, if: :devise_controller?
- 
+  before_action :authenticate_user!, except: [:top, :about], unless: :admin_controller? # 追加
+  
+
   def after_sign_in_path_for(resource)
-    user_path(@user.id)
+    user_path(resource)
   end
   
-  def after_sign_out_path_for(resource_or_scope)
-    flash[:notice] = "You have logged out successfully."
-    root_path
+  private
+ 
+  
+  def configure_authentication
+    if admin_controller?
+      authenticate_admin!
+    else
+      authenticate_user! unless action_is_public?
+    end
   end
-
-  def index
-    @users = User.all
+ 
+  def admin_controller?
+    self.class.module_parent_name == 'Admin'
   end
-
-  protected
-
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :email])
+ 
+  def action_is_public?
+    controller_name == 'homes' && action_name == 'top'
   end
+  
+  
 end

@@ -1,0 +1,40 @@
+<% if flash[:alert].present? %>
+  <div class="alert alert-danger">
+    <%= flash[:alert] %>
+  </div>
+<% end %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
+    </div>
+
+    <div class="col-md-8 offset-md-1">
+      <h1>Posts</h1>
+        <table class="table">
+          <thead>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+          </thead>
+          <tbody>
+          <% @users.each do |user| %>
+          <% user.muscles.each do |muscle| %>
+            <tr>
+              <td>
+                <%= link_to user_path(muscle.user) do %>
+                <%= image_tag muscle.user.get_profile_image(100, 100) %>
+                <% end %>
+              </td>
+              <td><%= link_to muscle.title, muscle_path(muscle) %></td>
+              <td><%= muscle.body %></td>
+            </tr>
+          <% end %>
+          <% end %>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+

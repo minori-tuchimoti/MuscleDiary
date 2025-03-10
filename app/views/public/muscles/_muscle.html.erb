@@ -1,0 +1,41 @@
+<%= render 'public/searches/searche', muscles: @muscles, user: @user %>
+
+
+  <h1>User info</h1>
+    <% if @user.present? %>
+      <%= image_tag @user.get_profile_image(100, 100) %>
+      <hr>
+        <p>name: <%= @user.name %></p>
+      <% if @user.introduction.present? %>
+      <hr>
+        <p>introduction: <%= @user.introduction %></p>
+      <% else %>
+        <p>introduction: 自己紹介文はありません</p>
+      <% end %>
+      <% else %>
+        <p>ユーザー情報が見つかりません</p>
+    <% end %>
+
+    <% unless user.guest_user? %>
+  <div class="row">
+    <%= link_to edit_user_path(user) do %>
+      ユーザー編集
+    <% end %>
+  </div>
+<% end %>
+  <% @newbook ||= Muscle.new %>
+<h1>New post</h1>
+    <%= form_for @newbook do |f| %>
+      <div class="field">
+        <%= f.label :title %><br>
+        <%= f.text_field :title %>
+      </div>
+      <div class="field">
+        <%= f.label :body %><br>
+        <%= f.text_area :body %>
+      </div>
+      <div class="row ml-5">
+        <%= f.submit 'Create Post', class: "btn btn-primary" %>
+      </div>
+    <% end %>
+</div>

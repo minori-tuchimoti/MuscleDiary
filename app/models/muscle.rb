@@ -1,11 +1,26 @@
 class Muscle < ApplicationRecord
   has_one_attached :image
   belongs_to :user
+  has_many :post_comments, dependent: :destroy
 
   validates :body, length: { maximum: 200 }
 
   validates :title, presence: true
   validates :body, presence: true
+
+  def self.looks(search, word)
+    if search == "perfect_match"
+      @muscle = Muscle.where("title LIKE?","#{word}")
+    elsif search == "forward_match"
+      @book = Muscle.where("title LIKE?","#{word}%")
+    elsif search == "backward_match"
+      @muscle = Muscle.where("title LIKE?","%#{word}")
+    elsif search == "partial_match"
+      @muscle = Muscle.where("title LIKE?","%#{word}%")
+    else
+      @muscle = Muscle.all
+    end
+  end
 
   
   def get_image

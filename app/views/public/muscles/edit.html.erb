@@ -1,0 +1,26 @@
+<h1>Editing Book</h1>
+<%= form_for(@muscle) do |f| %>
+  <% if @muscle.errors.any? %>
+    <div class="error">
+      <h3><%= @muscle.errors.count %> errors prohibited this post from being saved:</h3>
+      <ul>
+        <% @muscle.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="form-title">Title</div> 
+  <%= f.text_field :title %>
+  <div class="form-body">Opinion</div>
+  <%= f.text_area :body %><br>
+  <div class="upload">
+    <%= f.submit "Update Book" %>
+  </div>
+<% end %>
+
+<div class="menu">
+  <%= link_to "Show", muscle_path(@muscle) %>
+  |
+  <%= link_to "Back", muscles_path %>
+</div>
