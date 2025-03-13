@@ -1,17 +1,19 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    sessions: 'public/sessions',
+    registrations: 'public/registrations'
+  }
 
-
-  devise_scope :admin do
-    authenticated :admin do
-      root to: 'admin/dashboards#index', as: :authenticated_admin_root
+  scope as: 'admin' do
+    devise_scope :admin do
+      authenticated :admin do
+        root to: 'admin/dashboards#index', as: :authenticated_admin_root
+      end
     end
   end
   
   
-  devise_for :admin, skip: [:registrations, :password], controllers: {
-    sessions: 'admin/sessions'
-  }
+ 
 
   namespace :admin do
     resources :users, only: [:show, :edit, :update, :destroy]
@@ -19,25 +21,23 @@ Rails.application.routes.draw do
   end
 
   scope module: :public do
-    resources :muscles, only: [:new, :create, :index, :show, :destroy] do
+    root to: 'homes#top'
+    get 'homes/about', to: 'homes#about', as: 'about'
+    resources :muscles, only: [:new, :create, :edit, :update, :index, :show, :destroy] do
+      resource :favorites, only: [:create, :destroy]
       resources :post_comments, only: [:create, :destroy]
     end
-    
-    get '/' => 'homes#top'
-    root to: 'homes#top', as: 'top_root'
-    get 'homes/about', to: 'homes#about', as: :public_about 
-    resources :muscles, only: [:new, :create, :index, :show, :destroy]
-    resource :favorites, only: [:create, :destroy]
     resources :users, only: [:show, :edit, :update]
+  end
   
-    get '/homes', to: 'homes#top'
-    get '/home/about', to: 'homes#about', as: 'about'
-    root "homes#top"
+
+    get '/' => 'homes#top'
+
+
     get '/users/:id', to: 'users#show', as: 'show_user' 
     delete '/users/:id/cancel', to: 'users#cancel', as: 'cancel_user'
     get '/search', to: 'searches#search'
-    resources :users
-    resources :muscles
+    
     get "/" => "users#login_form", as: 'users_login' 
     post "/login" => "users#login"
     get "/new" => "users#new"
@@ -45,10 +45,18 @@ Rails.application.routes.draw do
     get "/edit/:id" => "users#edit"
     post "/users/update/:id" => "users#update"
     post "/logout" => "users#logout"
-
-  end
   
+  #ゲストログイン　ここから
   devise_scope :user do
     post "users/guest_sign_in", to: "users/sessions#guest_sign_in"
   end
+  #ここまで
+
+  #フォロー、フォロワー機能　ここから
+  resources :users, only: [:index, :show, :edit, :update] do
+    resource :relationships, only: [:create, :destroy]
+  	get "followings" => "relationships#followings", as: "followings"
+  	get "followers" => "relationships#followers", as: "followers"
+  end
+  #ここまで
 end

@@ -1,0 +1,15 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h4 class="headline mt-5 ml-5">いいねした投稿</h4>
+        <div class="row mt-3">
+        <% @liked_posts.each do |post| %>
+          
+        <% end %>
+      </div>
+      <div class="d-flex justify-content-center">
+        <%= paginate @liked_posts, theme: 'bootstrap-5' %>
+      </div>
+    </div>
+  </div>
+</div>

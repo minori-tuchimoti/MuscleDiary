@@ -1,9 +1,5 @@
 class Public::UsersController < ApplicationController
   before_action :ensure_guest_user, only: [:edit]
-
-  def new
-    @user = User.new
-  end
   
   def index
     if current_user
@@ -20,6 +16,7 @@ class Public::UsersController < ApplicationController
     @muscles = Muscle.where(user_id: @user.id)
     @newbook = Muscle.new
   end
+
 
   def edit
     @user = User.find(params[:id])
@@ -60,10 +57,14 @@ class Public::UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def liked_posts
+    @liked_posts = Muscle.liked_posts(current_user, params[:page], 12)
+  end
+
   private
   
   def user_params
-    params.require(:user).permit(:name, :email, :profile_image, :introduction)
+    params.require(:user).permit(:email, :password, :remember_me)
   end
 
   def ensure_guest_user
@@ -71,5 +72,5 @@ class Public::UsersController < ApplicationController
     if @user.guest_user?
       redirect_to user_path(current_user) , notice: "ゲストユーザーはプロフィール編集画面へ遷移できません。"
     end
-  end  
+  end
 end

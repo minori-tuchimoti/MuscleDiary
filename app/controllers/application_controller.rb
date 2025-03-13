@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  before_action :authenticate_user!, except: [:top, :about], unless: :admin_controller? # 追加
+  before_action :authenticate_user!, except: [:top, :about], unless: :admin_controller? 
   
 
   def after_sign_in_path_for(resource)
@@ -7,7 +7,6 @@ class ApplicationController < ActionController::Base
   end
   
   private
- 
   
   def configure_authentication
     if admin_controller?
