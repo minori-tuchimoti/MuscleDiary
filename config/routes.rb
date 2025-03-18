@@ -12,8 +12,13 @@ Rails.application.routes.draw do
     end
   end
   
-  
- 
+
+  namespace :public do
+    resources :muscles, only: [] do
+      post ':id', to: 'muscles#some_action', as: 'muscle_action'
+    end
+    resources :users  
+  end
 
   namespace :admin do
     resources :users, only: [:show, :edit, :update, :destroy]
@@ -27,13 +32,13 @@ Rails.application.routes.draw do
       resource :favorites, only: [:create, :destroy]
       resources :post_comments, only: [:create, :destroy]
     end
-    resources :users, only: [:show, :edit, :update]
+    resources :users, only: [:index, :show, :edit, :update, :cancel, :destroy, :liked_]
   end
   
 
     get '/' => 'homes#top'
 
-
+    
     get '/users/:id', to: 'users#show', as: 'show_user' 
     delete '/users/:id/cancel', to: 'users#cancel', as: 'cancel_user'
     get '/search', to: 'searches#search'

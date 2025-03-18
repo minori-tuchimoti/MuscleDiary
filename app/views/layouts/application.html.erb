@@ -26,19 +26,22 @@
         <div class="d-flex">
           <% if user_signed_in? %>
 
-            <%= link_to user_path(current_user.id), class: 'text-white mr-3' do %>
+            <%= link_to user_path(@user), class: 'text-white mr-3' do %>
               <i class="fa-solid fa-house"></i>Home
             <% end %>
 
-            <%= link_to user_path(current_user), class: 'text-white mr-3' do %>
+            <%= link_to users_path, class: 'text-white mr-3' do %>
               <i class="fa-solid fa-users"></i>Users
             <% end %>
+
             <%= link_to muscles_path, class: 'text-white mr-3' do %>
               <i class="fa-solid fa-dumbbell"></i>Posts
             <% end %>
+
             <%= link_to destroy_user_session_path, method: :delete, class: 'text-white mr-3' do  %>
               <i class="fa-solid fa-right-from-bracket"></i>Log out
             <% end %>
+            
           <% else %>
             <%= link_to root_path, class: 'text-white mr-3' do %>
               <i class="fa-solid fa-house"></i> Home

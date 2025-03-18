@@ -1,0 +1,7 @@
+<ul>
+  <% @users.each do |following_user| %>
+    <li>
+      <%= link_to following_user.name, user_path(following_user) %>
+    </li>
+  <% end %>
+</ul>

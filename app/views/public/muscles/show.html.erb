@@ -31,13 +31,13 @@
         </tbody>
         </table>
         <div>
-  <p>Number of comments：<%= @muscle.post_comments.count %></p>
-  <% @muscle.post_comments.each do |post_comment| %>
-    <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
-    <%= post_comment.user.name %>
-    <%= post_comment.created_at.strftime('%Y/%m/%d') %>
-    <%= post_comment.comment %>
-  <% end %>
+ <p>Number of comments：<%= @muscle.post_comments.count %></p>
+<% @muscle.post_comments.each do |post_comment| %>
+  <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
+  <%= post_comment.user.name %>
+  <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+  <%= post_comment.comment %> 
+<% end %>
 </div>
 <div>
   <%= form_with model: [@muscle, @post_comment] do |f| %>
@@ -47,18 +47,21 @@
 </div>
 
  <% if @muscle.favorited_by?(current_user) %>
-    <p>
-      <%= link_to muscle_favorite_path(@muscle), method: :delete do %>
-        ♥<%= @muscle.favorites.count %> いいね
-      <% end %>
-    </p>
-    <% else %>
-    <p>
-      <%= link_to muscle_path(@muscle), method: :post do %>
-        ♡<%= @muscle.favorites.count %> いいね
-      <% end %>
-    </p>
-  <% end %>
+  <p>
+    <%= link_to muscle_favorites_path(@muscle), method: :delete do %>
+      ♥<%= @muscle.favorites.count %> いいね
+    <% end %>
+  </p>
+<% else %>
+  <p>
+    <%= link_to muscle_favorites_path(@muscle), method: :post do %>
+      ♡<%= @muscle.favorites.count %> いいね
+    <% end %>
+  </p>
+<% end %>
+      フォロー数: <%= @user.followings.count %>
+      フォロワー数: <%= @user.followers.count %>
+      <%= render "relationships/btn", user: @user, options: { class: "follow-link" } %></td>
     </div>
   </div>
 </div>

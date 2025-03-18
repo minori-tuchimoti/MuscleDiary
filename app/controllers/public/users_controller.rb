@@ -60,6 +60,7 @@ class Public::UsersController < ApplicationController
   def liked_posts
     @liked_posts = Muscle.liked_posts(current_user, params[:page], 12)
   end
+  
 
   private
   
