@@ -68,6 +68,7 @@ class Public::UsersController < ApplicationController
     params.require(:user).permit(:email, :password, :remember_me, :image, :introduction)
   end
 
+  
   def ensure_guest_user
     @user = User.find(params[:id])
     if @user.guest_user?
