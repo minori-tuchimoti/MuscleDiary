@@ -16,13 +16,27 @@
         <p>ユーザー情報が見つかりません</p>
     <% end %>
 
-    <% unless user.guest_user? %>
-  <div class="row">
-    <%= link_to edit_user_path(user) do %>
-      ユーザー編集
+    <table>
+      <tr>
+      <th>follows</th>
+        <th><%= link_to @user.followings.count, user_followings_path(@user) %></th>
+      </tr>
+      <tr>
+        <th>followers</th>
+        <th><%= link_to @user.followers.count, user_followers_path(@user) %></th>
+      </tr>
+    </table>
+
+
+    <% if current_user == user %>
+      <div class="row">
+        <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
+          <i class="fas fa-user-cog"></i> 
+        <% end %>
+      </div>
     <% end %>
-  </div>
-<% end %>
+  
+  
   <% @newbook ||= Muscle.new %>
 <h1>New post</h1>
     <%= form_for @newbook do |f| %>
