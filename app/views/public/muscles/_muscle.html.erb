@@ -1,7 +1,6 @@
 <%= render 'public/searches/searche', muscles: @muscles, user: @user %>
 
 
-
   <h1>User info</h1>
     <% if @user.present? %>
       <%= image_tag @user.get_profile_image(100, 100) %>
