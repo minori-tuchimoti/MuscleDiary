@@ -1,4 +1,4 @@
-<body style="background: url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
+<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
 <% if @user.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>

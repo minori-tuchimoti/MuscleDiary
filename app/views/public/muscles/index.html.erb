@@ -1,4 +1,4 @@
-<body style="background-image: image-url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
+<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: rgba(255, 255, 255, 0.5);">
 <% if flash[:alert].present? %>
   <div class="alert alert-danger">
     <%= flash[:alert] %>
@@ -15,9 +15,11 @@
       <h1>Posts</h1>
         <table class="table">
           <thead>
-            <th>User</th>
-            <th>Title</th>
-            <th>Opinion</th>
+            <tr>
+              <th>User</th>
+              <th>Title</th>
+              <th>Opinion</th>
+            </tr>
           </thead>
           <tbody>
           <% @users.each do |user| %>
