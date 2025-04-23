@@ -57,11 +57,6 @@ class Public::UsersController < ApplicationController
     redirect_to root_path
   end
 
-  def liked_posts
-    @liked_posts = Muscle.liked_posts(current_user, params[:page], 12)
-  end
-  
-
   private
   
   def user_params

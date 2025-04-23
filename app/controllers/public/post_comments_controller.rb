@@ -7,6 +7,18 @@ class Public::PostCommentsController < ApplicationController
     redirect_to muscle_path(muscle)
   end
 
+  def destroy
+    @muscle = Muscle.find(params[:muscle_id])
+    @post_comment = @muscle.post_comments.find(params[:id])
+    
+    if current_user == @post_comment.user
+      @post_comment.destroy
+      redirect_to muscle_path(@muscle), notice: 'コメントを削除しました'
+    else
+      redirect_to muscle_path(@muscle), alert: '他のユーザーのコメントは削除できません'
+    end
+  end
+
   private
 
   def post_comment_params

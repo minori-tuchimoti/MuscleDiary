@@ -27,7 +27,6 @@
       </tr>
     </table>
 
-
     <% if current_user == user %>
       <div class="row">
         <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
@@ -39,17 +38,17 @@
   
   <% @newbook ||= Muscle.new %>
 <h1>New post</h1>
-    <%= form_for @newbook do |f| %>
-      <div class="field">
-        <%= f.label :title %><br>
-        <%= f.text_field :title %>
-      </div>
-      <div class="field">
-        <%= f.label :body %><br>
-        <%= f.text_area :body %>
-      </div>
-      <div class="row ml-5">
-        <%= f.submit 'Create Post', class: "btn btn-primary" %>
-      </div>
-    <% end %>
+    <%= form_for @newbook, html: { class: "form" } do |f| %>
+  <div class="field">
+    <%= f.label :title %><br>
+    <%= f.text_field :title, class: "form-control" %>
+  </div>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body, class: "form-control" %>
+  </div>
+  <div class="row ml-5">
+    <%= f.submit 'Create Post', class: "btn btn-primary" %>
+  </div>
+  <% end %>
 </div>

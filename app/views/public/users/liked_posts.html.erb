@@ -1,15 +1,18 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <h4 class="headline mt-5 ml-5">いいねした投稿</h4>
-        <div class="row mt-3">
-        <% @liked_posts.each do |post| %>
-          
-        <% end %>
-      </div>
-      <div class="d-flex justify-content-center">
-        <%= paginate @liked_posts, theme: 'bootstrap-5' %>
-      </div>
-    </div>
+<% @liked_posts.each do |post| %>
+  <!-- 投稿の表示 -->
+<% end %>
+
+<!-- ページネーション -->
+<div class="row mt-3">
+  <div class="d-flex justify-content-center">
+    <% unless @page == 1 %>
+      <%= link_to "前のページ", liked_posts_path(page: @page - 1), class: "btn btn-primary mr-2" %>
+    <% end %>
+    
+    <%= "Page #{@page}" %>
+    
+    <% unless @liked_posts.size < @per_page %>
+      <%= link_to "次のページ", liked_posts_path(page: @page + 1), class: "btn btn-primary ml-2" %>
+    <% end %>
   </div>
 </div>

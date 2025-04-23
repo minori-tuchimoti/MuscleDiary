@@ -1,14 +1,23 @@
-<h1>Homes#top</h1>
-<p>Find me in app/views/homes/top.html.erb</p>
-<div class="btn-wrapper col-10 mx-auto">
-        <div class="row">
-          <%= link_to "ゲストログイン（閲覧用）", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
-        </div>
-
-        <div class="row">
-          <%= link_to "Log in",new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in" %>
-        </div>
-        <div class="row">
-          <%= link_to "Sign Up",new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up" %>
-        </div>
+<body style="background: url('/assets/dumb-bell-670061_1920.jpg') no-repeat center center; background-size: cover;">
+  <div class="container-fluid">
+    <div class="btn-wrapper col-10 mx-auto text-center mt-3">
+    <%= link_to root_path do %>
+      <%= image_tag 'MuscleDiary-logo (2).png', alt: 'logo', size: '400x200' %>
+    <% end %>
+    <div class="row justify-content-center">
+      <div class="col-6 my-3">
+        <%= link_to "Guest Login (for browsing)", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
       </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6 my-3">
+        <%= link_to "Log in", new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in" %>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-6 my-3">
+        <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up" %>
+      </div>
+    </div>
+  </div>
+</div>

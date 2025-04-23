@@ -20,6 +20,10 @@ class User < ApplicationRecord
   has_many :followings, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
+  has_many :likes
+  has_many :liked_posts, through: :likes, source: :post
+  has_many :posts
+
   def follow(user)
     active_relationships.create(followed_id: user.id)
   end

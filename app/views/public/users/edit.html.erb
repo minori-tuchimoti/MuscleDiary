@@ -1,3 +1,4 @@
+<body style="background: url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
 <% if @user.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
@@ -9,44 +10,38 @@
   </div>
 <% end %>
 
-<div class="container-fluid mt-5">
-  <div class="header row">
-    <div class="mx-auto">
-      <div class="col">
-        <h2>User info</h2>
-      </div>
-  
-  
+<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <h2 class="text-center">User info</h2>
+      
       <%= form_with model: @user do |f| %>
-        <div class="row mt-1">
-          <label for="inputName">Name</label>
+        <div class="form-group mt-1">
+          <%= f.label :name, "Name" %>
+          <%= f.text_field :name, autofocus: true, id: "inputName", class: "form-control", placeholder: "名前" %>
         </div>
-        <div class="row">
-          <%= f.text_field :name, autofocus: true, id:"inputName", placeholder:"名前"%>
+        
+        <div class="form-group mt-3">
+          <%= f.label :profile_image, "Image" %>
+          <%= f.file_field :profile_image, class: "form-control-file", accept: "image/*" %>
         </div>
-        <div class="row mt-3">
-          <label for="inputImage">Image</label>
+        
+        <div class="form-group mt-3">
+          <%= f.label :introduction, "Introduction" %>
+          <%= f.text_area :introduction, class: "form-control" %>
         </div>
-        <div class="row">
-          <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %> 
+        
+        <div class="form-group mt-3 text-center">
+          <%= f.submit "Update User", class: "btn btn-primary" %>
         </div>
-        <div class="row mt-3">
-          <label for="inputIntroduction">Introduction</label>
-        </div>
-        <div class="row">
-          <%= f.text_area :introduction %>
-        </div>
-        <div class="row mt-3">
-          <%= f.submit "Update User" %>
-          
+        
+        <div class="form-group mt-3 text-center">
+          <%= button_to "Delete User", user_path(@user), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-danger" %>
         </div>
       <% end %>
-      <%= form_tag(user_path(@user), method: :delete) do %>
-        <%= csrf_meta_tags %>
-        <%= submit_tag "Delete User" %>
-      <% end %>
-
-<%= link_to "戻る", public_users_path, class: "btn btn-outline-secondary" %>
+      
+      <%= link_to "Back", public_users_path, class: "btn btn-outline-secondary mt-3" %>
     </div>
   </div>
 </div>
+</body>

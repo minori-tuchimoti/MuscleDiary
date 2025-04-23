@@ -16,8 +16,11 @@ Rails.application.routes.draw do
   namespace :public do
     resources :muscles, only: [] do
       post ':id', to: 'muscles#some_action', as: 'muscle_action'
+      resources :post_comments, only: [:destroy]
     end
-    resources :users  
+    resources :users do
+      get 'liked_posts', on: :member
+    end
   end
 
   namespace :admin do

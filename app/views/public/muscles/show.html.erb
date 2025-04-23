@@ -1,67 +1,95 @@
+<body style="background: url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
 <% if notice %>
   <div class="alert alert-success bg-white">
     <%= notice %>
   </div>
 <% end %>
 
-<div class="container">
+<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
   <div class="row">
-    <div class="col-md-3">
-    <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
+    <div class="col-md-3 mt-4">
+      <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
     </div>
 
-    <div class="col-md-8 offset-md-1">
-      <h1>Post detail</h1>
-      <table class="table">
-      <tbody>
-        <tr>
-          <td>
-              <%= link_to user_path(@muscle.user) do %>
-                <%= image_tag @muscle.user.get_profile_image(100, 100) %><br>
-                <%= @muscle.user.name %>
-              <% end %>
-          </td>
-          <td><%= link_to @muscle.title, muscle_path(@muscle) %></td>
-          <td><%= @muscle.body %></td>
-          <% if @muscle.user_id == current_user.id %>
-            <td><%= link_to "Edit", edit_muscle_path(@muscle), class:"btn btn-success"%></td>
-            <td><%= link_to "Destroy", muscle_path(@muscle), method: :delete, data: {confirm: "本当に消しますか？"}, class:"btn btn-danger" %></td>
+    <div class="col-md-8 offset-md-1 mt-4">
+  <h1>Post detail</h1>
+  <table class="table">
+    <tbody>
+      <tr>
+        <td><strong>Name:</strong></td>
+        <td>
+          <%= link_to user_path(@muscle.user) do %>
+            <div class="d-flex align-items-center">
+              <%= image_tag @muscle.user.get_profile_image(100, 100), class: "rounded-circle mr-2" %>
+              <span><%= @muscle.user.name %></span>
+            </div>
           <% end %>
-        </tr>
-        </tbody>
-        </table>
-        <div>
- <p>Number of comments：<%= @muscle.post_comments.count %></p>
-<% @muscle.post_comments.each do |post_comment| %>
-  <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
-  <%= post_comment.user.name %>
-  <%= post_comment.created_at.strftime('%Y/%m/%d') %>
-  <%= post_comment.comment %> 
-<% end %>
-</div>
-<div>
-  <%= form_with model: [@muscle, @post_comment] do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "Comment here" %>
-    <%= f.submit "Send" %>
-  <% end %>
-</div>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Title:</strong></td>
+        <td><%= link_to @muscle.title, muscle_path(@muscle) %></td>
+      </tr>
+      <tr>
+        <td><strong>Body:</strong></td>
+        <td><%= @muscle.body %></td>
+      </tr>
+    </tbody>
+  </table>
 
- <% if @muscle.favorited_by?(current_user) %>
-  <p>
-    <%= link_to muscle_favorites_path(@muscle), method: :delete do %>
-      ♥<%= @muscle.favorites.count %> いいね
-    <% end %>
-  </p>
-<% else %>
-  <p>
-    <%= link_to muscle_favorites_path(@muscle), method: :post do %>
-      ♡<%= @muscle.favorites.count %> いいね
-    <% end %>
-  </p>
-<% end %>
-      フォロー数: <%= @user.followings.count %>
-      フォロワー数: <%= @user.followers.count %>
-      <%= render "relationships/btn", user: @user, options: { class: "follow-link" } %></td>
+  <h3>Comments</h3>
+  <table class="table">
+    <tbody>
+      <% @muscle.post_comments.each do |post_comment| %>
+        <tr>
+          <td><%= image_tag post_comment.user.get_profile_image(50, 50), class: "rounded-circle mr-2" %></td>
+          <td><%= post_comment.user.name %></td>
+          <td><%= post_comment.created_at.strftime('%Y/%m/%d') %></td>
+          <td><%= post_comment.comment %></td>
+          <td>
+            <% if post_comment.user == current_user %>
+              <%= button_to 'Delete', muscle_post_comment_path(@muscle, post_comment), method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-danger' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+      <div>
+        <%= form_with model: [@muscle, @post_comment] do |f| %>
+          <div class="form-group row">
+            <%= f.text_area :comment, rows: '2', placeholder: "Comment here", class: "form-control" %>
+          </div>
+          <div class="form-group row">
+            <%= f.submit "Send", class: "btn btn-primary" %>
+          </div>
+        <% end %>
+      </div>
+
+      <div>
+        <% if @muscle.favorited_by?(current_user) %>
+          <p>
+            <%= link_to muscle_favorites_path(@muscle), method: :delete do %>
+              ♥<%= @muscle.favorites.count %> いいね
+            <% end %>
+          </p>
+        <% else %>
+          <p>
+            <%= link_to muscle_favorites_path(@muscle), method: :post do %>
+              ♡<%= @muscle.favorites.count %> いいね
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+
+      <div>
+        <p>フォロー数: <%= @user.followings.count %></p>
+        <p>フォロワー数: <%= @user.followers.count %></p>
+        <%= render "relationships/btn", user: @user, options: { class: "follow-link" } %>
+      </div>
+    </div>
     </div>
   </div>
 </div>
+</body>

@@ -1,37 +1,36 @@
-<div class="container">
+<body style="background: url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
+<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
   <div class="row">
-  <div class="col-md-3">
-  <%= render 'public/muscles/muscle', muscles: @muscles,user: @user %>
+    <div class="col-md-3 mt-4">
+      <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
     </div>
 
-    <div class="col-md-8 offset-md-1">
-
-    <h1>Users</h1>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th></th>
-          <th></th>
-        </tr>
-      <% @muscles.each do |muscle| %>
-      <% # ログインしているユーザーも含めて表示（フォローボタンは非表示） %>
-        <tr>
-          <td><%= image_tag muscle.user.get_profile_image(100,100) %></td>
-          <td><%= muscle.user.name %></td>
-          <td>
-            <%= link_to 'Show', user_path(muscle.user) %>
-          </td>
-          <td>
-            <% unless muscle.user == current_user %>
-            <%= render 'relationships/btn', user: muscle.user %>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-      </thead>
-    </table>
+    <div class="col-md-8 offset-md-1 mt-4">
+      <h1>Users</h1>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @muscles.each do |muscle| %>
+            <tr>
+              <td><%= link_to image_tag(muscle.user.get_profile_image(100,100)), user_path(muscle.user) %></td>
+              <td><%= link_to muscle.user.name, user_path(muscle.user) %></td>
+              <td><%= link_to 'Show', user_path(muscle.user) %></td>
+              <td>
+                <% unless muscle.user == current_user %>
+                  <%= render 'relationships/btn', user: muscle.user %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
 </div>

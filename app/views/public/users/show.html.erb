@@ -1,42 +1,47 @@
+<body style="background: url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
 <% if flash[:notice].present? %>
   <div class="alert alert-success bg-white">
     <%= flash[:notice] %>
   </div>
 <% end %>
 
-
-<div class="container">
+<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
   <div class="row">
-    <div class="col-md-3">
-    <%= render 'public/muscles/muscle', muscles: @muscle, user: @user %>
+    <div class="col-md-3 mt-4">
+      <%= render 'public/muscles/muscle', muscles: @muscle, user: @user %>
     </div>
 
-    <div class="col-md-8 offset-md-1">
-
-    <h1>You Posts</h1>
-    
-    <table class="table">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Title</th>
-        <th>Opinion</th>
-      </tr>
-    </thead>
-    <tbody>
-    <% @muscles.each do |muscle| %>
-      <tr>
-        <td>
-          <%= link_to user_path(muscle.user) do %>
-          <%= image_tag muscle.user.get_profile_image(100, 100) %>
+    <div class="col-md-8 offset-md-1 mt-4">
+      <h1>Your Posts</h1>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Title</th>
+            <th>Opinion</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @muscles.each do |muscle| %>
+            <tr>
+              <td>
+                <%= link_to user_path(muscle.user) do %>
+                  <%= image_tag muscle.user.get_profile_image(100, 100) %>
+                <% end %>
+              </td>
+              <td><%= link_to muscle.title, muscle_path(muscle) %></td>
+              <td><%= muscle.body %></td>
+              <td style="display: flex;">
+                <%= link_to 'Edit', edit_muscle_path(muscle), class: 'btn btn-primary mr-2' %>
+                <%= button_to 'Delete', muscle, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger', style: 'margin-right: 5px; width: 100px;' %>
+              </td>
+            </tr>
           <% end %>
-        </td>
-        <td><%= link_to muscle.title, muscle_path(muscle) %></td>
-        <td><%= muscle.body %></td>
-      </tr>
-    <% end %>
-    </tbody>
-  </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
-</div>
-</div>
+</body>

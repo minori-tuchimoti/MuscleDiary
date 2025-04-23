@@ -34,4 +34,7 @@
 ​
 ## 使用素材
 - フリーイラスト素材として以下を使用
+- Free Logo Maker(https://www.squarespace.com/logo)
+- Pixaday(https://pixabay.com/ja/photos)
 - いらすとや(https://www.irasutoya.com/)
+- Unsplash(https://unsplash.com/ja)

@@ -1,20 +1,21 @@
+<body style="background: url('/assets/sport-908264_640.jpg') no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
 <% if flash[:alert].present? %>
   <div class="alert alert-danger">
     <%= flash[:alert] %>
   </div>
 <% end %>
 
-<div class="container">
+<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-3 mt-4">
       <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
     </div>
 
-    <div class="col-md-8 offset-md-1">
+    <div class="col-md-8 offset-md-1 mt-4">
       <h1>Posts</h1>
         <table class="table">
           <thead>
-            <th></th>
+            <th>User</th>
             <th>Title</th>
             <th>Opinion</th>
           </thead>
@@ -25,6 +26,7 @@
               <td>
                 <%= link_to user_path(muscle.user) do %>
                 <%= image_tag muscle.user.get_profile_image(100, 100) %>
+                <p><%= muscle.user.name %></p>
                 <% end %>
               </td>
               <td><%= link_to muscle.title, muscle_path(muscle) %></td>
@@ -37,4 +39,4 @@
     </div>
   </div>
 </div>
-
+</body>
