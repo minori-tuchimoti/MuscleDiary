@@ -25,6 +25,10 @@ class Admin::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
+  
+  def create
+    super
+  end
 
   def authenticated_admin_root_path
     admin_dashboards_path

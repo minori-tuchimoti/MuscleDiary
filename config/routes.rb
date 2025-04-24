@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     registrations: 'public/registrations'
   }
 
-  devise_for :admin, skip: [:registrations, :password], controllers: {
+  devise_for :admins, skip: [:registrations, :password], controllers: {
     sessions: 'admin/sessions'
   }
 
@@ -47,8 +47,7 @@ Rails.application.routes.draw do
     get '/users/:id', to: 'users#show', as: 'show_user' 
     delete '/users/:id/cancel', to: 'users#cancel', as: 'cancel_user'
     get '/search', to: 'searches#search'
-    
-    get "/" => "users#login_form", as: 'users_login' 
+  
     post "/login" => "users#login"
     get "/new" => "users#new"
     post "/users/create" => "users#create"
