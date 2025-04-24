@@ -30,21 +30,12 @@ class Admin::SessionsController < Devise::SessionsController
     admin_dashboards_path
   end
   
-  def create
-    super do |resource|
-      if resource.admin?
-        redirect_to authenticated_admin_root_path
-        return
-      else
-        redirect_to public_users_path
-      end
-    end
-  end
+  
 
   protected
  
   def after_sign_in_path_for(resource)
-    if resource.admin?
+    if resource.is_a?(Admin)
       admin_dashboards_path
     else
       public_users_path
