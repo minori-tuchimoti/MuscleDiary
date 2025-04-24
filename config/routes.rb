@@ -4,12 +4,13 @@ Rails.application.routes.draw do
     registrations: 'public/registrations'
   }
 
-  scope as: 'admin' do
-    devise_scope :admin do
-      authenticated :admin do
-        root to: 'admin/dashboards#index', as: :authenticated_admin_root
-      end
-    end
+  devise_for :admin, skip: [:registrations, :password], controllers: {
+    sessions: 'admin/sessions'
+  }
+
+  namespace :admin do
+    get 'dashboards', to: 'dashboards#index'
+    resources :users, only: [:destroy]
   end
   
 
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
     resources :muscles, only: [] do
       post ':id', to: 'muscles#some_action', as: 'muscle_action'
       resources :post_comments, only: [:destroy]
+      resource :favorites, only: [:create, :destroy] 
     end
     resources :users do
       get 'liked_posts', on: :member

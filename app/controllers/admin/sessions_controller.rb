@@ -26,6 +26,10 @@ class Admin::SessionsController < Devise::SessionsController
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 
+  def authenticated_admin_root_path
+    admin_dashboards_path
+  end
+  
   def create
     super do |resource|
       if resource.admin?

@@ -9,9 +9,7 @@ class User < ApplicationRecord
   has_many :muscles, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
-  validates :name, presence: true
-  validates :name, length: { minimum: 2, maximum: 20 }
-  validates :name, uniqueness: true
+  validates :name, presence: true, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }
 
   # フォロー,フォロワー機能 ここから

@@ -17,7 +17,6 @@ class Public::UsersController < ApplicationController
     @newbook = Muscle.new
   end
 
-
   def edit
     @user = User.find(params[:id])
     if @user == current_user
@@ -29,10 +28,13 @@ class Public::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+    Rails.logger.debug "Before update: #{@user.inspect}"
     if @user.update(user_params)
+      Rails.logger.debug "After update: #{@user.inspect}"
       flash[:notice] = "You have updated user successfully."
       redirect_to user_path(current_user)
     else
+      Rails.logger.debug "Update failed: #{@user.errors.full_messages}"
       render :edit
     end
   end
@@ -57,10 +59,14 @@ class Public::UsersController < ApplicationController
     redirect_to root_path
   end
 
+  def liked_posts
+    @liked_posts = Muscle.liked_posts(current_user, params[:page], 12)
+  end
+
   private
   
   def user_params
-    params.require(:user).permit(:email, :password, :remember_me, :image, :introduction)
+    params.require(:user).permit(:name, :profile_image, :introduction)
   end
 
   

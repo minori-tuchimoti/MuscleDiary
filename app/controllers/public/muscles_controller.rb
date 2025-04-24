@@ -64,6 +64,14 @@ class Public::MusclesController < ApplicationController
     end
   end
 
+  def self.liked_muscles(user, page, per_page)
+    includes(:muscle_favorites) 
+      .where(muscle_favorites: { user_id: user.id })
+      .order(created_at: :desc)
+      .page(page) 
+      .per(per_page) 
+  end
+
   private
 
   def muscle_params
