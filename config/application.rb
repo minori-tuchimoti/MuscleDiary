@@ -11,6 +11,12 @@ module MuscleDiary
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
+    # タイムゾーンを東京に設定
+    config.time_zone = 'Tokyo'
+
+    # DBにはUTCで保存しつつ、Rails内ではTokyo時間で扱う設定（通常はこれでOK）
+    config.active_record.default_timezone = :utc
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
