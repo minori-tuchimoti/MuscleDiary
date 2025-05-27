@@ -67,6 +67,17 @@
 
         <div class="card mb-4 shadow-sm border-0">
           <div class="card-body">
+
+            <% if @post_comment.errors.any? %>
+              <div class="alert alert-danger">
+                <ul>
+                  <% @post_comment.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+
             <%= form_with model: [@muscle, @post_comment] do |f| %>
               <div class="form-group row">
                 <%= f.text_area :comment, rows: '2', placeholder: "Comment here", class: "form-control" %>

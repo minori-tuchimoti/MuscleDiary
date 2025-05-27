@@ -1,9 +1,22 @@
-<div class="mx-auto text-center mt-5 px-4 max-w-lg">
+<div class="container text-center mt-5 px-4 position-relative" style="padding-bottom: 320px;">
     <p>僕の趣味は筋力トレーニングです。</p>
-    <p>筋トレのやり方に正解はなくこういったやり方は筋肥大に繋がる、あるいは逆に筋肉が減る原因になるなど様々な情報であふれています。 正しいフォーム、またはケガに繋がる恐れのある危険なトレーニングのやり方を少しでも共有できるサービスがあれば便利ではないかと思いました。</p>
+    <p>筋トレのやり方に正解はなくこういったやり方は筋肥大に繋がる、あるいは逆に筋肉が減る原因になるなど様々な情報であふれています。正しいフォーム、またはケガに繋がる恐れのある危険なトレーニングのやり方を少しでも共有できるサービスがあれば便利ではないかと思いました。</p>
     <p>筋トレで体を変えたいと思う人も多いと思うので少しでも助けになれたらと思いこのアプリを作成しました.</p>
 
-    <img src="<%= asset_path('dumbbell_man.png') %>" class="dumbbell-image" style="position: absolute; bottom: 0; left: 0; width: 300px; height: 300px;">
+    <!-- PC表示時の左右画像 -->
+    <img src="<%= asset_path('dumbbell_man.png') %>" 
+         class="position-absolute bottom-0 start-0 img-fluid d-none d-md-block" 
+         style="width: 200px; max-height: 300px;" 
+         alt="Dumbbell Man">
 
-    <img src="<%= asset_path('undou_bench_press_man.png') %>" class="undou-image" style="position: absolute; bottom: 0; right: 0; width: 300px; height: 300px;">
+    <img src="<%= asset_path('undou_bench_press_man.png') %>" 
+         class="position-absolute bottom-0 end-0 img-fluid d-none d-md-block" 
+         style="width: 200px; max-height: 300px;" 
+         alt="Bench Press Man">
+
+    <!-- モバイル用 -->
+    <div class="d-block d-md-none mt-4">
+        <img src="<%= asset_path('dumbbell_man.png') %>" class="img-fluid mb-3" style="max-width: 70%;" alt="Dumbbell Man">
+        <img src="<%= asset_path('undou_bench_press_man.png') %>" class="img-fluid" style="max-width: 70%;" alt="Bench Press Man">
+    </div>
 </div>

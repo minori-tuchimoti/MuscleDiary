@@ -1,16 +1,24 @@
 class Public::PostCommentsController < ApplicationController
   def create
-    muscle = Muscle.find(params[:muscle_id])
-    comment = current_user.post_comments.new(post_comment_params)
-    comment.muscle_id = muscle.id
-    comment.save
-    redirect_to muscle_path(muscle)
+    @muscle = Muscle.find(params[:muscle_id])
+    @post_comment = current_user.post_comments.new(post_comment_params)
+    @post_comment.muscle_id = @muscle.id
+  
+    if @post_comment.save
+      redirect_to muscle_path(@muscle), notice: 'コメントを投稿しました'
+    else
+      @user = @muscle.user
+      @post_comments = @muscle.post_comments.includes(:user)
+      flash.now[:alert] = 'コメントを入力してください'
+      render 'public/muscles/show'
+    end
   end
+  
 
   def destroy
     @muscle = Muscle.find(params[:muscle_id])
     @post_comment = @muscle.post_comments.find(params[:id])
-    
+
     if current_user == @post_comment.user
       @post_comment.destroy
       redirect_to muscle_path(@muscle), notice: 'コメントを削除しました'
