@@ -1,36 +1,59 @@
 <body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
-<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
-  <div class="row">
-    <div class="col-md-3 mt-4">
-      <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
-    </div>
+  <div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
+    <div class="row">
 
-    <div class="col-md-8 offset-md-1 mt-4">
-      <h1>Users</h1>
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Actions</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
+      <!-- サイドバー: スマホでは幅100%、md以上は3カラム -->
+      <div class="col-12 col-md-3 mt-4">
+        <%= render 'public/searches/search', users: @users, muscles: @muscles, range: @range %>
+        <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
+      </div>
+
+      <!-- ユーザーリスト部分: スマホでは幅100%、md以上は8カラム+1カラムoffset -->
+      <div class="col-12 col-md-8 offset-md-1 mt-4">
+        <h1>Users</h1>
+        <div class="row">
           <% @muscles.each do |muscle| %>
-            <tr>
-              <td><%= link_to image_tag(muscle.user.get_profile_image(100,100)), user_path(muscle.user) %></td>
-              <td><%= link_to muscle.user.name, user_path(muscle.user) %></td>
-              <td><%= link_to 'Show', user_path(muscle.user), class: 'btn btn-primary' %></td>
-              <td>
-                <% unless muscle.user == current_user %>
-                  <%= render 'relationships/btn', user: muscle.user %>
-                <% end %>
-              </td>
-            </tr>
+            <div class="col-12 mb-4">
+              <div class="card shadow-sm border-0 p-3 mb-3" style="border-radius: 16px; background-color: #fefefe; width: 100%;">
+
+                <!-- カード内のコンテンツ -->
+                <div class="d-flex align-items-center flex-wrap">  <!-- flex-wrap追加で狭い画面で折り返し -->
+                  
+                  <!-- プロフィール画像 -->
+                  <div class="me-3 mb-2 mb-md-0">  <!-- 下マージンをスマホのみ付与 -->
+                    <%= link_to user_path(muscle.user) do %>
+                      <%= image_tag muscle.user.get_profile_image(80, 80), class: 'rounded-circle border border-2', style: 'object-fit: cover;' %>
+                    <% end %>
+                  </div>
+
+                  <!-- ユーザー情報エリア -->
+                  <div class="flex-grow-1">
+                    
+                    <!-- ユーザー名 -->
+                    <div class="mb-1">
+                      <small class="text-secondary">👤 ユーザー名</small><br>
+                      <%= link_to muscle.user.name, user_path(muscle.user), class: 'fw-bold text-primary text-decoration-none fs-5' %>
+                    </div>
+
+                    <!-- ボタンエリア -->
+                    <div class="d-flex gap-2 flex-wrap"> <!-- flex-wrapでボタン折り返し対応 -->
+                      <%= link_to 'Show', user_path(muscle.user), class: 'btn btn-primary btn-sm', style: 'width: 100px; font-size: 0.8rem;' %>
+
+                      <% unless muscle.user == current_user %>
+                        <div style="width: 100px;">
+                          <%= render 'relationships/btn', user: muscle.user, button_style: 'font-size: 0.8rem; width: 100%;' %>
+                        </div>
+                      <% end %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
           <% end %>
-        </tbody>
-      </table>
+        </div>
+      </div>
+
     </div>
   </div>
-</div>
+</body>

@@ -60,7 +60,8 @@ class Public::UsersController < ApplicationController
   end
 
   def liked_posts
-    @liked_posts = Muscle.liked_posts(current_user, params[:page], 12)
+    @user = User.find(params[:id])
+    @liked_posts = @user.liked_posts.includes(:user).page(params[:page]).per(12)
   end
 
   private
@@ -76,4 +77,5 @@ class Public::UsersController < ApplicationController
       redirect_to user_path(current_user) , notice: "ゲストユーザーはプロフィール編集画面へ遷移できません。"
     end
   end
+  
 end

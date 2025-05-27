@@ -1,56 +1,78 @@
-<%= render 'public/searches/searche', muscles: @muscles, user: @user %>
+<h1>User info</h1>
 
-
-  <h1>User info</h1>
-    <% if @user.present? %>
-      <%= image_tag @user.get_profile_image(100, 100) %>
-      <hr>
-        <p>name: <%= @user.name %></p>
+<!-- ユーザー情報 -->
+<% if @user.present? %>
+  <div class="card mx-auto" style="max-width: 400px; background-color: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px;">
+    <div class="card-body text-center">
+      <%= image_tag @user.get_profile_image(100, 100), class: "rounded-circle mb-3" %>
+      
+      <h5 class="card-title">Name</h5>
+      <p class="card-text"><%= @user.name %></p>
+      
+      <h5 class="card-title">Introduction</h5>
       <% if @user.introduction.present? %>
-      <hr>
-        <p>introduction: <%= @user.introduction %></p>
+        <p class="card-text"><%= @user.introduction %></p>
       <% else %>
-        <p>introduction: 自己紹介文はありません</p>
+        <p class="card-text text-muted">自己紹介文はありません</p>
       <% end %>
-      <% else %>
-        <p>ユーザー情報が見つかりません</p>
+    </div>
+  </div>
+<% else %>
+  <p>ユーザー情報が見つかりません</p>
+<% end %>
+
+<!-- フォロー、フォロワー表示 -->
+<table>
+  <tr>
+    <th>follows</th>
+    <th><%= link_to @user.followings.count, user_followings_path(@user) %></th>
+  </tr>
+  <tr>
+    <th>followers</th>
+    <th><%= link_to @user.followers.count, user_followers_path(@user) %></th>
+  </tr>
+</table>
+
+<!-- いいね一覧へ -->
+<%= link_to liked_posts_public_user_path(@user), data: { "turbolinks" => false } do %>
+  <i class="fas fa-thumbs-up"></i><%= @user.name %>さんのいいねした投稿
+<% end %>
+
+
+<!-- 今ログインしているユーザーの場合、プロフ編集ボタン表示 -->
+<% if current_user == user %>
+  <div class="row">
+    <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
+      <i class="fas fa-user-cog"></i> 
     <% end %>
+  </div>
+<% end %>
 
-    <table>
-      <tr>
-      <th>follows</th>
-        <th><%= link_to @user.followings.count, user_followings_path(@user) %></th>
-      </tr>
-      <tr>
-        <th>followers</th>
-        <th><%= link_to @user.followers.count, user_followers_path(@user) %></th>
-      </tr>
-    </table>
+<!-- 今ログインしているユーザーとは別のユーザーの場合、フォローボタン表示 -->
+<div class="row">
+  <% unless @user == current_user %>
+    <div style="width: 100px;">
+      <%= render 'relationships/btn', user: @user, button_style: 'font-size: 0.8rem; width: 100%;' %>
+    </div>
+  <% end %>
+</div>
 
-    <%= link_to liked_posts_public_user_path(current_user), data: { "turbolinks" => false } do %><i class="fas fa-thumbs-up"></i>いいねした投稿<% end %>
 
-    <% if current_user == user %>
-      <div class="row">
-        <%= link_to edit_user_path(user), class: "btn btn-outline-secondary btn-block" do %>
-          <i class="fas fa-user-cog"></i> 
-        <% end %>
-      </div>
-    <% end %>
-  
-  
   <% @newbook ||= Muscle.new %>
+
+<!-- 新規投稿 -->
 <h1>New post</h1>
-    <%= form_for @newbook, html: { class: "form" } do |f| %>
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title, class: "form-control" %>
-  </div>
-  <div class="field">
-    <%= f.label :body %><br>
-    <%= f.text_area :body, class: "form-control" %>
-  </div>
-  <div class="row ml-5">
-    <%= f.submit 'Create Post', class: "btn btn-primary" %>
-  </div>
+  <%= form_for @newbook, html: { class: "form" } do |f| %>
+    <div class="field">
+      <%= f.label :title %><br>
+      <%= f.text_field :title, class: "form-control" %>
+    </div>
+    <div class="field">
+      <%= f.label :body %><br>
+      <%= f.text_area :body, class: "form-control" %>
+    </div>
+    <div class="row ml-5">
+      <%= f.submit 'Create Post', class: "btn btn-primary" %>
+    </div>
   <% end %>
 </div>

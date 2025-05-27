@@ -1,0 +1,52 @@
+<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: rgba(255, 255, 255, 0.5);">
+
+  <div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10">
+
+        <!-- 投稿がある場合 -->
+        <% if muscles.present? %>
+          <div class="row justify-content-center">
+            <% muscles.each do |muscle| %>
+              <div class="col-12 col-sm-8 col-md-6 col-lg-4 mb-4">
+                <div class="card h-100">
+                  <!-- ユーザー情報（画像と名前） -->
+                  <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                      <span class="font-weight-bold mr-2">ユーザー:</span>
+                      <%= link_to public_user_path(muscle.user), class: 'd-flex align-items-center text-decoration-none' do %>
+                        <!-- ユーザー画像 -->
+                        <% if muscle.user.profile_image.present? %>
+                          <%= image_tag muscle.user.profile_image, size: '50x50', class: 'rounded-circle mr-3' %>
+                        <% else %>
+                          <%= image_tag 'default_profile.png', size: '50x50', class: 'rounded-circle mr-3' %>
+                        <% end %>
+                        <!-- ユーザー名 -->
+                        <span class="font-weight-bold"><%= muscle.user.name %></span>
+                      <% end %>
+                    </div>
+                  </div>
+
+                  <!-- 投稿タイトル -->
+                  <div class="card-footer">
+                    <span class="font-weight-bold">タイトル：</span>
+                    <%= link_to muscle.title, public_user_path(muscle.user), class: 'text-decoration-none text-primary' %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="text-muted">No matching posts found.</p>
+        <% end %>
+
+        <!-- 戻るボタン -->
+        <div class="mt-4 text-center">
+          <%= link_to 'ユーザー一覧に戻る', public_users_path, class: 'btn btn-secondary' %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>

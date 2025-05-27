@@ -1,47 +1,78 @@
-<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
-<% if flash[:notice].present? %>
-  <div class="alert alert-success bg-white">
-    <%= flash[:notice] %>
-  </div>
-<% end %>
-
-<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
-  <div class="row">
-    <div class="col-md-3 mt-4">
-      <%= render 'public/muscles/muscle', muscles: @muscle, user: @user %>
+<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
+  
+  <% if flash[:notice].present? %>
+    <div class="alert alert-success bg-white">
+      <%= flash[:notice] %>
     </div>
+  <% end %>
 
-    <div class="col-md-8 offset-md-1 mt-4">
-      <h1>User Posts</h1>
+  <div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
+    <div class="row">
       
-      <table class="table">
-        <thead>
-          <tr>
-            <th></th>
-            <th>Title</th>
-            <th>Opinion</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
+      <!-- サイドバー (検索部分、ユーザープロフ、新規投稿) -->
+      <div class="col-md-3 mt-4">
+        <%= render 'public/searches/search', users: @users, muscles: @muscles, range: @range %>
+        <%= render 'public/muscles/muscle', muscles: @muscle, user: @user %>
+      </div>
+
+      <!-- 投稿部分 -->
+      <div class="col-md-8 offset-md-1 mt-4">
+        <h1>User Posts</h1>
+
+        <div class="row">
           <% @muscles.each do |muscle| %>
-            <tr>
-              <td>
-                <%= link_to user_path(muscle.user) do %>
-                  <%= image_tag muscle.user.get_profile_image(100, 100) %>
-                <% end %>
-              </td>
-              <td><%= link_to muscle.title, muscle_path(muscle) %></td>
-              <td><%= muscle.body %></td>
-              <td style="display: flex;">
-                <%= link_to 'Edit', edit_muscle_path(muscle), class: 'btn btn-primary mr-2' %>
-                <%= button_to 'Delete', muscle, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger', style: 'margin-right: 5px; width: 100px;' %>
-              </td>
-            </tr>
+            <div class="col-12 mb-4">
+              <div class="card shadow-sm border-0 p-3 d-flex flex-row align-items-center" style="border-radius: 16px; background-color: #fefefe;">
+                
+                <!-- プロフィール画像 -->
+                <div class="flex-shrink-0 me-4">
+                  <%= link_to user_path(muscle.user) do %>
+                    <%= image_tag muscle.user.get_profile_image(80, 80), class: 'rounded-circle border border-2', style: 'object-fit: cover;' %>
+                  <% end %>
+                </div>
+
+                <!-- 投稿内容 -->
+                <div class="flex-grow-1">
+                  
+                  <!-- ユーザー名 -->
+                  <div class="mb-2">
+                    <small class="text-secondary fw-semibold">👤 ユーザー名</small><br>
+                    <%= link_to muscle.user.name, user_path(muscle.user), class: 'fw-bold text-dark text-decoration-none fs-5' %>
+                  </div>
+
+                  <!-- タイトル -->
+                  <div class="mb-2">
+                    <small class="text-secondary fw-semibold">📝 タイトル</small><br>
+                    <%= link_to muscle.title, muscle_path(muscle), class: 'text-primary fs-5 text-decoration-none' %>
+                  </div>
+
+                  <!-- 投稿内容 -->
+                  <div class="mb-3">
+                    <small class="text-secondary fw-semibold">📄 投稿</small>
+                    <p class="text-muted mt-1 mb-0"><%= truncate(muscle.body, length: 100) %></p>
+                  </div>
+
+                  <!-- 投稿日時 -->
+                  <div class="mb-2 text-muted">
+                    <small class="text-secondary">📅 投稿日</small><br>
+                    <%= muscle.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+                  </div>
+
+                  <!-- アクションボタン -->
+                  <% if current_user == muscle.user %>
+                    <div class="d-flex gap-2 mt-2">
+                      <%= link_to '編集', edit_muscle_path(muscle), class: 'btn btn-outline-primary btn-sm px-3 rounded-pill' %>
+                      <%= button_to '削除', muscle, method: :delete, data: { confirm: '本当に削除しますか？' }, class: 'btn btn-outline-danger btn-sm px-3 rounded-pill' %>
+                    </div>
+                  <% end %>
+
+                </div>
+              </div>
+            </div>
           <% end %>
-        </tbody>
-      </table>
+        </div>
+
+      </div>
     </div>
   </div>
-</div>
 </body>

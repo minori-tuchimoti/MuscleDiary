@@ -1,40 +1,36 @@
-<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
-<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
-<div class="container">
-  <div class="row justify-content-center">
-    <div class="col-6 text-center mt-4">
-      <h2>Follow Users</h2>
-      <% if @users.exists? %>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Profile Image</th>
-              <th>Name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |user| %>
-              <tr>
-                <td>
-                  <%= link_to user do %>
-                    <% if user.profile_image.present? %>
-                      <%= image_tag user.profile_image, size: '50x50' %>
-                    <% else %>
-                      <%= image_tag 'default_profile.png', size: '50x50' %>
-                    <% end %>
-                  <% end %>
-                </td>
-                <td><%= link_to user.name, user %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-      <% else %>
-        <p>ユーザーはいません</p>
-      <% end %>
-      <%= link_to 'Back', users_path, class: 'btn btn-primary mt-3' %>
+<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
+  <div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-12 text-center mt-4">
+          <h2>Follow Users</h2>
+          <% if @users.exists? %>
+            <div class="d-flex flex-column align-items-center mt-4">
+              <% @users.each do |user| %>
+                <div class="mb-4">
+                  <div class="card" style="width: 18rem;">
+                    <div class="card-body text-center">
+                      <%= link_to user do %>
+                        <% if user.profile_image.present? %>
+                          <%= image_tag user.profile_image, size: '80x80', class: 'rounded-circle mb-2' %>
+                        <% else %>
+                          <%= image_tag 'default_profile.png', size: '80x80', class: 'rounded-circle mb-2' %>
+                        <% end %>
+                      <% end %>
+                      <h5 class="card-title mt-2">
+                        <%= link_to user.name, user, class: "text-decoration-none text-dark" %>
+                      </h5>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <p>ユーザーはいません</p>
+          <% end %>
+          <%= link_to 'Back', users_path, class: 'btn btn-primary mt-3' %>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 </body>

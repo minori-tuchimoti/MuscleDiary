@@ -2,12 +2,9 @@ class Public::MusclesController < ApplicationController
   devise_group :user, contains: [:user]
 
   def index
-      @users = User.all
-    if current_user
-      @user = current_user
-    end
-      @muscles = Muscle.all
-      @newbook = Muscle.new 
+    @user = current_user if current_user
+    @muscles = Muscle.order(created_at: :desc).page(params[:page]).per(10)  # 新しい順に並べる
+    @new_muscle = Muscle.new 
   end
 
   def show

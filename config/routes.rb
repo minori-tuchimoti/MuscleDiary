@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   
 
   namespace :public do
+    get 'search', to: 'searches#search', as: 'search'
     resources :muscles, only: [] do
       post ':id', to: 'muscles#some_action', as: 'muscle_action'
       resources :post_comments, only: [:destroy]
@@ -24,6 +25,7 @@ Rails.application.routes.draw do
       get 'liked_posts', on: :member
     end
   end
+
 
   namespace :admin do
     resources :users, only: [:show, :edit, :update, :destroy]
@@ -46,7 +48,6 @@ Rails.application.routes.draw do
     
     get '/users/:id', to: 'users#show', as: 'show_user' 
     delete '/users/:id/cancel', to: 'users#cancel', as: 'cancel_user'
-    get '/search', to: 'searches#search'
   
     post "/login" => "users#login"
     get "/new" => "users#new"

@@ -7,7 +7,6 @@ class User < ApplicationRecord
   has_one_attached :profile_image
   has_many :post_comments, dependent: :destroy
   has_many :muscles, dependent: :destroy
-  has_many :favorites, dependent: :destroy
 
   validates :name, presence: true, length: { minimum: 2, maximum: 20 }, uniqueness: true
   validates :introduction, length: { maximum: 50 }
@@ -18,8 +17,8 @@ class User < ApplicationRecord
   has_many :followings, through: :active_relationships, source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
 
-  has_many :likes
-  has_many :liked_posts, through: :likes, source: :post
+  has_many :favorites, dependent: :destroy
+  has_many :liked_posts, through: :favorites, source: :muscle
   has_many :posts
 
   def follow(user)
@@ -37,17 +36,15 @@ class User < ApplicationRecord
   #ここまで
 
 
-  def self.looks(search, word)
-    if search == "perfect_match"
-      @user = User.where("name LIKE?", "#{word}")
-    elsif search == "forward_match"
-      @user = User.where("name LIKE?","#{word}%")
-    elsif search == "backward_match"
-      @user = User.where("name LIKE?","%#{word}")
-    elsif search == "partial_match"
-      @user = User.where("name LIKE?","%#{word}%")
+  def self.search_for(content, method)
+    if method == 'perfect'
+      User.where(name: content)
+    elsif method == 'forward'
+      User.where('name LIKE ?', content + '%')
+    elsif method == 'backward'
+      User.where('name LIKE ?', '%' + content)
     else
-      @user = User.all
+      User.where('name LIKE ?', '%' + content + '%')
     end
   end
 

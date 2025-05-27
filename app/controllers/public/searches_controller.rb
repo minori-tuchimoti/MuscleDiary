@@ -2,12 +2,14 @@ class Public::SearchesController < ApplicationController
   before_action :authenticate_user!
 
   def search
-    @range = params[:range]
-
-    if @range == "User"
-      @users = User.looks(params[:search], params[:word])
+    @model = params[:model]  # :modelを受け取る
+    @content = params[:content]  # :contentを受け取る
+    @method = params[:method]  # :methodを受け取る
+    
+    if @model == 'user'
+      @records = User.search_for(@content, @method)
     else
-      @muscles = Muscle.looks(params[:search], params[:word])
+      @records = Muscle.search_for(@content, @method)
     end
   end
 end

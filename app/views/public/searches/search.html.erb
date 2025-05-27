@@ -1,26 +1,7 @@
-<h2>Results index</h2>
-
-<table class="table table-hover table-inverse">
-  <!--検索対象モデルがUserの時 -->
-
-  <% if @range == "User" %>
-    <tbody>
-      <% @users.each do |user| %>
-        <tr>
-          <td><%= link_to user.name, user_path(user) %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  <% else %>
-    <!--検索対象モデルがUserではない時(= 検索対象モデルがMuscleの時) -->
-    
-    <tbody>
-      <% @muscles.each do |muscle| %>
-    <tr>
-      <td><%= link_to muscle.title, muscle_path(muscle) %></td>
-      <td><%= muscle.body %></td>
-    </tr>
-  <% end %>
-    </tbody>
-  <% end %>
-</table>
+<% if @model == 'user' %>
+    <h3>Users search for "<%= @content %>"</h3>
+  <%= render 'public/users/index', users: @records %>
+<% elsif @model == 'muscle' %>
+    <h3>Posts search for "<%= @content %>"</h3>
+  <%= render partial: 'public/muscles/index', locals: { muscles: @records } %>
+<% end %>

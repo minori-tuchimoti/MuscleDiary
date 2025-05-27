@@ -1,24 +1,27 @@
-<body style="background-image: url('<%= asset_path('dumb-bell-670061_1920.jpg') %>'); no-repeat center center; background-size: cover;">
+<body style="background-image: url('<%= asset_path('dumb-bell-670061_1920.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover;">
   <div class="container-fluid">
-    <div class="btn-wrapper col-10 mx-auto text-center mt-3">
-    <%= link_to root_path do %>
-      <%= image_tag 'MuscleDiary-logo (2).png', alt: 'logo', size: '400x200' %>
-    <% end %>
-    <div class="row justify-content-center">
-      <div class="col-6 my-3">
-        <%= link_to "Guest Login (for browsing)", users_guest_sign_in_path, class: "btn btn-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
+    <div class="btn-wrapper col-12 col-sm-10 mx-auto text-center mt-3">
+      <%= link_to root_path do %>
+        <%= image_tag 'MuscleDiary-logo (2).png', alt: 'logo', class: 'img-fluid', style: 'max-width: 400px; height: auto;' %>
+      <% end %>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3">
+          <%= link_to "Guest Login (for browsing)", users_guest_sign_in_path, class: "btn btn-secondary btn-block mb-3 sign_in", method: :post %>
+        </div>
       </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-6 my-3">
-        <%= link_to "Log in", new_user_session_path, class: "btn btn-info btn-sm btn-block mb-3 sign_in" %>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3">
+          <%= link_to "Log in", new_user_session_path, class: "btn btn-info btn-block mb-3 sign_in" %>
+        </div>
       </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-6 my-3">
-        <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success btn-sm btn-block sign_up" %>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-8 col-md-6 col-lg-4 my-3">
+          <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-success btn-block sign_up" %>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </body>

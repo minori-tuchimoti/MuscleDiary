@@ -3,6 +3,7 @@ class Muscle < ApplicationRecord
   belongs_to :user
   has_many :post_comments, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :favorited_users, through: :favorites, source: :user
 
   validates :body, length: { maximum: 200 }
 
@@ -13,20 +14,18 @@ class Muscle < ApplicationRecord
     favorites.exists?(user_id: user.id)
   end
   
-  def self.looks(search, word)
-    if search == "perfect_match"
-      @muscle = Muscle.where("title LIKE?","#{word}")
-    elsif search == "forward_match"
-      @book = Muscle.where("title LIKE?","#{word}%")
-    elsif search == "backward_match"
-      @muscle = Muscle.where("title LIKE?","%#{word}")
-    elsif search == "partial_match"
-      @muscle = Muscle.where("title LIKE?","%#{word}%")
+  
+  def self.search_for(content, method)
+    if method == 'perfect'
+      Muscle.where(title: content)  # name -> title に修正
+    elsif method == 'forward'
+      Muscle.where('title LIKE ?', content + '%')  # name -> title に修正
+    elsif method == 'backward'
+      Muscle.where('title LIKE ?', '%' + content)  # name -> title に修正
     else
-      @muscle = Muscle.all
+      Muscle.where('title LIKE ?', '%' + content + '%')  # name -> title に修正
     end
   end
-
   
   
   def get_image
@@ -36,9 +35,6 @@ class Muscle < ApplicationRecord
     end
       image
   end
-
-  
-  
 
   def self.liked_posts(user, page, per_page)
     joins(:favorites)

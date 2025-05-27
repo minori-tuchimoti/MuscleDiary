@@ -1,44 +1,71 @@
 <body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: rgba(255, 255, 255, 0.5);">
-<% if flash[:alert].present? %>
-  <div class="alert alert-danger">
-    <%= flash[:alert] %>
-  </div>
-<% end %>
-
-<div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
-  <div class="row">
-    <div class="col-md-3 mt-4">
-      <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
+  <% if flash[:alert].present? %>
+    <div class="alert alert-danger">
+      <%= flash[:alert] %>
     </div>
+  <% end %>
 
-    <div class="col-md-8 offset-md-1 mt-4">
-      <h1>Posts</h1>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>User</th>
-              <th>Title</th>
-              <th>Opinion</th>
-            </tr>
-          </thead>
-          <tbody>
-          <% @users.each do |user| %>
-          <% user.muscles.each do |muscle| %>
-            <tr>
-              <td>
-                <%= link_to user_path(muscle.user) do %>
-                <%= image_tag muscle.user.get_profile_image(100, 100) %>
-                <p><%= muscle.user.name %></p>
-                <% end %>
-              </td>
-              <td><%= link_to muscle.title, muscle_path(muscle) %></td>
-              <td><%= muscle.body %></td>
-            </tr>
+  <div class="container mt-4" style="background-color: rgba(255, 255, 255, 0.7); padding: 20px; border-radius: 10px;">
+    <div class="row">
+      <!-- サイドバー部分 -->
+      <div class="col-md-3 mt-4">
+        <%= render 'public/searches/search', users: @users, muscles: @muscles, range: @range %>
+        <%= render 'public/muscles/muscle', muscles: @muscles, user: @user %>
+      </div>
+
+      <!-- 投稿部分 -->
+      <div class="col-md-8 offset-md-1 mt-4">
+        <h1>Posts</h1>
+
+        <div class="row">
+          <% @muscles.each do |muscle| %>
+              <div class="col-12 mb-4">
+                <div class="card shadow-sm border-0 p-3" style="border-radius: 16px; background-color: #fefefe; width: 100%;">
+
+                  <!-- ユーザー情報エリア -->
+                  <div class="d-flex align-items-center">
+                    <!-- プロフィール画像 -->
+                    <div class="me-3">
+                      <%= link_to user_path(muscle.user) do %>
+                        <%= image_tag muscle.user.get_profile_image(100, 100), class: 'rounded-circle border border-2', style: 'object-fit: cover;' %>
+                      <% end %>
+                    </div>
+
+                    <!-- ユーザー名 -->
+                    <div class="flex-grow-1">
+                      <div class="mb-1">
+                        <small class="text-secondary">👤 ユーザー名</small><br>
+                        <%= link_to muscle.user.name, user_path(muscle.user), class: 'fw-bold text-primary text-decoration-none fs-5' %>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 投稿内容エリア -->
+                  <div class="mt-3">
+                    <!-- 投稿タイトル -->
+                    <div class="mb-1">
+                      <small class="text-secondary">📝 タイトル</small><br>
+                      <%= link_to muscle.title, muscle_path(muscle), class: 'text-primary text-decoration-none' %>
+                    </div>
+
+                    <!-- 投稿本文 -->
+                    <div class="mb-2 text-muted">
+                      <small class="text-secondary">📄 投稿</small><br>
+                      <%= truncate(muscle.body, length: 80) %>
+                    </div>
+
+                    <!-- 投稿日時 -->
+                    <div class="mb-2 text-muted">
+                      <small class="text-secondary">📅 投稿日</small><br>
+                      <%= muscle.created_at.strftime("%Y年%m月%d日 %H:%M") %>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
           <% end %>
-          <% end %>
-          </tbody>
-        </table>
+        </div>
+      </div>
     </div>
   </div>
-</div>
 </body>

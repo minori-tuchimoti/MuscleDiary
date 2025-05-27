@@ -1,5 +1,5 @@
 <% if current_user != user %>
-  <% button_class = current_user.following?(user) ? "btn btn-info" : "btn btn-success" %>
+  <% button_class = current_user.following?(user) ? "btn btn-info btn-sm" : "btn btn-success btn-sm" %>
   <% button_text = current_user.following?(user) ? "フォロー外す" : "フォローする" %>
-  <%= link_to button_text, user_relationships_path(user.id), method: (current_user.following?(user) ? :delete : :post), class: button_class %>
+  <%= link_to button_text, user_relationships_path(user.id), method: (current_user.following?(user) ? :delete : :post), class: button_class, style: 'font-size: 0.8rem;' %>
 <% end %>

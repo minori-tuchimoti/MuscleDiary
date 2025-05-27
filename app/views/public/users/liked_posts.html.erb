@@ -1,28 +1,41 @@
-<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); no-repeat center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
+<body style="background-image: url('<%= asset_path('sport-908264_640.jpg') %>'); background-repeat: no-repeat; background-position: center center; background-size: cover; background-color: rgba(255,255,255,0.5);">
   <div class="container mt-4" style="background-color: rgba(255,255,255,0.7); padding: 20px; border-radius: 10px;">
     <div class="container">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>User Name</th> <!-- ユーザー名を追加 -->
-            <th>Title</th>
-            <th>Body</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @liked_posts.each do |muscle| %>
-            <tr>
-              <td>
-                <%= link_to image_tag(muscle.user.get_profile_image(100,100)), user_path(muscle.user) %>
-                <%= link_to muscle.user.name, user_path(muscle.user) %>
-              </td>
-              <td><%= link_to muscle.title, muscle_path(muscle) %></td>
-              <td><%= muscle.body %></td>
-            </tr>
+      <div class="d-flex flex-column align-items-center">
+        
+        <!-- 見出し -->
+        <h2 class="text-center mb-4 fs-5">
+          <% if @user == current_user %>
+            あなたの「いいね」一覧
+          <% else %>
+            <%= @user.name %>さんの「いいね」一覧
           <% end %>
-        </tbody>
-      </table>
-       <%= link_to 'Back', muscles_path, class: 'btn btn-secondary' %>
+        </h2>
+
+        <% @liked_posts.each do |muscle| %>
+          <div class="card mb-4 w-100" style="max-width: 36rem;">
+            <div class="card-body">
+              <div class="d-flex flex-column flex-md-row">
+                
+                <!-- 左側：ユーザー情報 -->
+                <div class="me-md-4 mb-3 mb-md-0 text-center" style="min-width: 120px;">
+                  <%= link_to image_tag(muscle.user.get_profile_image(80, 80), class: "rounded-circle mb-2"), user_path(muscle.user) %><br>
+                  <strong><%= link_to muscle.user.name, user_path(muscle.user), class: "text-decoration-none text-dark" %></strong>
+                </div>
+
+                <!-- 右側：タイトルと投稿 -->
+                <div>
+                  <p><strong>タイトル:</strong> <%= link_to muscle.title, muscle_path(muscle), class: "text-decoration-none" %></p>
+                  <p><strong>投稿:</strong><br><%= simple_format(muscle.body) %></p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        <% end %>
+
+        <%= link_to 'Back', muscles_path, class: 'btn btn-secondary mt-3' %>
+      </div>
     </div>
   </div>
 </body>
