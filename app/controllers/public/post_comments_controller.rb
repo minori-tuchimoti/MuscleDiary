@@ -8,12 +8,13 @@ class Public::PostCommentsController < ApplicationController
       redirect_to muscle_path(@muscle), notice: 'コメントを投稿しました'
     else
       @user = @muscle.user
-      @post_comments = @muscle.post_comments.includes(:user)
+      # ページネーションつきで再取得する
+      @post_comments = @muscle.post_comments.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
       flash.now[:alert] = 'コメントを入力してください'
       render 'public/muscles/show'
     end
   end
-  
+
 
   def destroy
     @muscle = Muscle.find(params[:muscle_id])

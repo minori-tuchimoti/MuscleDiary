@@ -2,10 +2,9 @@ class Public::UsersController < ApplicationController
   before_action :ensure_guest_user, only: [:edit]
   
   def index
-    if current_user
-      @user = current_user
-    end
-    @users = User.all
+    @user = current_user if current_user
+
+    @users = User.order(created_at: :desc).page(params[:page]).per(10)
     @muscles = Muscle.all
     @newbook = Muscle.new
   end
@@ -15,6 +14,7 @@ class Public::UsersController < ApplicationController
     @muscle = Muscle.new
     @muscles = Muscle.where(user_id: @user.id)
     @newbook = Muscle.new
+    @muscles = @user.muscles.order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def edit

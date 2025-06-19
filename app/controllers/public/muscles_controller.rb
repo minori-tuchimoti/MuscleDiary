@@ -4,7 +4,7 @@ class Public::MusclesController < ApplicationController
   def index
     @user = current_user if current_user
     @muscles = Muscle.order(created_at: :desc).page(params[:page]).per(10)  # 新しい順に並べる
-    @new_muscle = Muscle.new 
+    @new_muscle = Muscle.new
   end
 
   def show
@@ -12,6 +12,7 @@ class Public::MusclesController < ApplicationController
     @muscle = Muscle.find(params[:id])
     @user = @muscle.user
     @post_comment = PostComment.new
+    @post_comments = @muscle.post_comments.includes(:user).order(created_at: :desc).page(params[:page]).per(5)
   end
 
   def create
