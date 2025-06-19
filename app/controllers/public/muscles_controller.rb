@@ -24,7 +24,7 @@ class Public::MusclesController < ApplicationController
     else
       flash[:alert] = @muscle.errors.full_messages.join("activerecord.errors.models.msucle.")
       @user = current_user
-      @muscles = Muscle.all
+      @muscles = Muscle.order(created_at: :desc).page(params[:page]).per(10)  # ← ここを修正
       @newbook = Muscle.new
       @users = User.all
       render 'index'
