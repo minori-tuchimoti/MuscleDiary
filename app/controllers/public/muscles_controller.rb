@@ -79,4 +79,8 @@ class Public::MusclesController < ApplicationController
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
   end
+
+  def muscle_params
+    params.require(:muscle).permit(:title, :body, images: [], videos: [])
+  end
 end

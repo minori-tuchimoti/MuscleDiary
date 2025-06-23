@@ -15,6 +15,7 @@ class Public::UsersController < ApplicationController
     @muscles = Muscle.where(user_id: @user.id)
     @newbook = Muscle.new
     @muscles = @user.muscles.order(created_at: :desc).page(params[:page]).per(5)
+    @muscles = @user.muscles.includes(images_attachments: :blob, videos_attachments: :blob).order(created_at: :desc).page(params[:page])
   end
 
   def edit

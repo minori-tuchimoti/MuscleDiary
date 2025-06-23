@@ -11,6 +11,8 @@ module MuscleDiary
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
 
+    config.active_storage.variant_processor = :mini_magick
+
     # タイムゾーンを東京に設定
     config.time_zone = 'Tokyo'
 

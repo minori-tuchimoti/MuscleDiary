@@ -39,6 +39,41 @@
               <small class="text-secondary">📄 投稿</small><br>
               <%= @muscle.body %>
             </p>
+
+            <!-- 添付画像の表示 -->
+            <% if @muscle.images.attached? %>
+              <div class="mb-3">
+                  <small class="text-secondary d-block mb-2">🖼️ 画像</small>
+                <div class="text-center">
+                  <% @muscle.images.each do |file| %>
+                    <% if file.content_type.start_with?('image') %>
+                      <%= image_tag file.variant(resize_to_limit: [200, 200]),
+                        class: "img-thumbnail mx-auto d-block mb-2",
+                        style: "max-height: 150px; cursor: pointer;",
+                        data: { bs_toggle: "modal", bs_target: "#mediaModal", media_type: "image", src: url_for(file) } %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
+            <!-- 添付動画の表示 -->
+            <% if @muscle.videos.attached? %>
+              <div class="mb-3">
+                  <small class="text-secondary d-block mb-2">🎥 動画</small>
+                <div class="text-center">
+                  <% @muscle.videos.each do |video| %>
+                    <video width="200" class="rounded mx-auto d-block mb-2"
+                      style="max-height: 150px; cursor: pointer;"
+                      data-bs-toggle="modal" data-bs-target="#mediaModal"
+                      data-media-type="video" data-src="<%= url_for(video) %>" data-content-type="<%= video.content_type %>">
+                      <source src="<%= url_for(video) %>" type="<%= video.content_type %>">
+                    </video>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+
           </div>
         </div>
 
@@ -113,4 +148,59 @@
     </div>
   </div>
 </div>
+
+  <!-- モーダル定義 -->
+  <div class="modal fade" id="mediaModal" tabindex="-1" aria-labelledby="mediaModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-md">
+      <div class="modal-content bg-transparent border-0">
+        <div class="d-flex justify-content-end pe-2 pt-2">
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body text-center p-0">
+          <img id="modalImage" src="" class="img-fluid rounded d-none" />
+          <video id="modalVideo" controls class="rounded d-none" style="max-width: 500px; width: 90vw; max-height: 400px;">
+            <source id="modalVideoSource" src="" type="">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%= javascript_tag do %>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('mediaModal');
+      const modalImage = document.getElementById('modalImage');
+      const modalVideo = document.getElementById('modalVideo');
+      const modalVideoSource = document.getElementById('modalVideoSource');
+
+      modal.addEventListener('show.bs.modal', function (event) {
+        const trigger = event.relatedTarget;
+        const mediaType = trigger.getAttribute('data-media-type');
+        const src = trigger.getAttribute('data-src');
+
+       modalImage.classList.add('d-none');
+        modalVideo.classList.add('d-none');
+
+        if (mediaType === 'image') {
+          modalImage.src = src;
+          modalImage.classList.remove('d-none');
+        } else if (mediaType === 'video') {
+          const contentType = trigger.getAttribute('data-content-type');
+          modalVideoSource.src = src;
+          modalVideoSource.type = contentType;
+          modalVideo.load();
+          modalVideo.classList.remove('d-none');
+        }
+      });
+
+      modal.addEventListener('hide.bs.modal', function () {
+        modalVideo.pause();
+        modalVideoSource.src = '';
+        modalVideo.load();
+      });
+    });
+  <% end %>
+
 </body>

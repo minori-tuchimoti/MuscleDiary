@@ -71,6 +71,21 @@
       <%= f.label :body %><br>
       <%= f.text_area :body, class: "form-control" %>
     </div>
+
+  <!-- 画像アップロード -->
+    <div class="field">
+      <%= f.label :images, "画像ファイル" %><br>
+      <%= f.file_field :images, multiple: true, accept: 'image/*' %>
+    </div>
+
+  <!-- 動画アップロード -->
+    <div class="field">
+      <%= f.label :videos, "動画ファイル" %><br>
+      <%= f.file_field :videos, multiple: true, accept: 'video/*' %>
+    </div>
+
+    <p class="text-muted">
+
     <div class="row ml-5">
       <%= f.submit 'Create Post', class: "btn btn-primary" %>
     </div>
